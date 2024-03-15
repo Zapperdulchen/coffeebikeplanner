@@ -1,0 +1,25 @@
+.container {
+     display: flex;
+     flex-direction: row;
+     flex-wrap: nowrap; /* Verhindert den Umbruch innerhalb des Containers */
+     gap: 10px; /* Abstand zwischen den Elementen */
+ }
+ .item {
+     flex: 1; /* Erlaubt den Elementen, den verfügbaren Platz gleichmäßig aufzuteilen */
+     background-color: lightblue;
+     text-align: center;
+     padding: 10px;
+     box-sizing: border-box;
+     cursor: pointer;
+     min-height: 20px; /* Stellt sicher, dass leere Elemente klickbar bleiben */
+ }
+ .placeholder {
+     color: #ffffff; /* Farbe des Platzhaltertextes */
+ }
+
+ /* Media Query für Bildschirme kleiner als 600px */
+ @media (max-width: 600px) {
+     .container {
+         flex-direction: column; /* Stapelt die Elemente vertikal */
+     }
+ }
