@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editierbare Information mit Server-Update</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<div class="container heading">
+    <div class="item">Ort und Zeit</div>
+    {% for task in tasks %}
+        <div class="item">{{ task.task }}</div>
+    {% endfor %}
+</div>
+
+{% for event in events %}
+<div class="container">
+    <div class="item">{{ event.start_datetime | date('%a, %d.%m.%Y %H:%M') }} -
+                      {{ event.end_datetime | date('%H:%M') }}, {{ event.location.name }}</div>
+    {% for task in tasks %}
+        {% for plan in event.plans if plan.task_id == task.id %}
+            <div class="item" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ task.task }}">
+                {{ task.task }} - {{ plan.person }}
+            </div>
+        {% else %}
+            <div class="item placeholder" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ task.task }}">{{ task.task }}</div>
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endfor %}
+
+<script src="{{ url_for('static', filename='editableElements.js') }}"></script>
+
+</body>
+</html>
