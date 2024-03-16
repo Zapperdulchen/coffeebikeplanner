@@ -1,5 +1,5 @@
-from datetime import datetime
-from database import insert_plan, Location, Task, Event, Plan # , Person
+from datetime import datetime, date
+from database import session_db, engine, insert_plan, Location, Task, Event, Plan # , Person
 
 def create_sample_db(session):
 
@@ -51,3 +51,18 @@ def create_sample_db(session):
     ]
     for p in plans_list:
         insert_plan(session, *p)
+
+if __name__ == '__main__':
+    init_db(engine) # deletes db and recreates it
+    session = session_db(engine)
+    create_sample_db(session)
+
+    # Get the current date
+    current_date = date.today()
+
+    # Query for all future events
+    future_events = session.query(Event).filter(Event.start_datetime > current_date).all()
+
+    # Example usage: print the names of locations hosting future events
+    for event in future_events:
+        print(f"Event ID: {event.id}, Location: {event.location.name}, Date: {event.start_datetime}, Plan: {event.plans}")
