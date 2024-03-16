@@ -21,11 +21,11 @@
                       {{ event.end_datetime | date('%H:%M') }}, {{ event.location.name }}</div>
     {% for task in tasks %}
         {% for plan in event.plans if plan.task_id == task.id %}
-            <div class="item" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ task.task }}">
+            <div class="item task{{ task.id }}" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ task.task }}">
                 {{ task.task }} - {{ plan.person }}
             </div>
         {% else %}
-            <div class="item placeholder" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ task.task }}">{{ task.task }}</div>
+            <div class="item task{{ task.id }} placeholder" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ task.task }}">{{ task.task }}</div>
         {% endfor %}
     {% endfor %}
 </div>

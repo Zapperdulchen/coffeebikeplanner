@@ -1,25 +1,71 @@
 .container {
      display: flex;
-     flex-direction: row;
-     flex-wrap: nowrap; /* Verhindert den Umbruch innerhalb des Containers */
-     gap: 10px; /* Abstand zwischen den Elementen */
+     flex-wrap: wrap;
  }
  .item {
-     flex: 1; /* Erlaubt den Elementen, den verfügbaren Platz gleichmäßig aufzuteilen */
-     background-color: lightblue;
+     flex: 1 1 150px; /* Setzt eine Basisbreite und erlaubt Flexibilität */
+     min-width: 150px; /* Mindestbreite für jedes Element */
+     max-width: 550px; /* Maximale Breite für jedes Element */
+     background-color: #c2a698;
      text-align: center;
      padding: 10px;
+     margin: 5px;
      box-sizing: border-box;
      cursor: pointer;
      min-height: 20px; /* Stellt sicher, dass leere Elemente klickbar bleiben */
+     border-radius: 5px; /* rounded corners */
  }
+ .heading > .item {
+     background-color: #463023;
+     color: #ffffff;
+     font-weight: bold;
+ }
+
+ .task1::before, .task2::before, .task3::before, .task4::before {
+     content: "";
+     display: inline-block;
+     width: 37px;
+     height: 25px;
+     background-size: cover;
+     margin-right: 5px; /* Abstand zum Text */
+     color: #644e41;
+ }
+
+ .task4::before {
+     background-image: url('cookies.svg');
+     width: 28px;
+ }
+
+ .task1::before, .task2::before, .task3::before {
+     background-image: url('coffee_and_talk.svg');
+ }
+
  .placeholder {
      color: #ffffff; /* Farbe des Platzhaltertextes */
  }
 
- /* Media Query für Bildschirme kleiner als 600px */
- @media (max-width: 600px) {
-     .container {
-         flex-direction: column; /* Stapelt die Elemente vertikal */
+ .heading {
+     position: relative;
+     padding-top: 180px; /* Schafft Platz für das Logo oben */
+ }
+
+ .heading::before {
+     content: "";
+     width: 200px; // 367px;
+     height: 200px; // 301px;
+     background-image: url('Caférad Logo.jpg');
+     background-size: contain;
+     background-repeat: no-repeat;
+     position: absolute;
+     top: 0px; /* Position über dem Element */
+     left: 5%;
+}
+
+ @media (max-width: 800px) { /* Passt den Umbruchpunkt nach Bedarf an */
+     .item {
+         flex: 1 1 100%;
+         min-width: 100%; /* Jedes Element nimmt die volle Breite ein, wenn untereinander */
+         max-width: 100%;
+         margin: 2px;
      }
  }
