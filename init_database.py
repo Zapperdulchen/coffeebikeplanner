@@ -1,5 +1,5 @@
 from datetime import datetime, date
-from database import session_db, engine, insert_plan, Location, Task, Event, Plan # , Person
+from database import session_db, engine, init_db, insert_plan, Location, Task, Event, Plan # , Person
 
 def create_sample_db(session):
 
