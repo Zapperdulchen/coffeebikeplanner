@@ -1,3 +1,10 @@
+* {
+    font-family: sans-serif;
+    background-color: #ffffff;
+    /* background-color: #ebebeb;
+    background-color: #f5f5dc; */
+}
+
 .container {
      display: flex;
      flex-wrap: wrap;
@@ -44,12 +51,14 @@
      color: #ffffff; /* Farbe des Platzhaltertextes */
  }
 
- .heading {
+ .rules {
      position: relative;
      padding-top: 180px; /* Schafft Platz für das Logo oben */
+     max-width: 600px;
+     left: 0.5%;
  }
 
- .heading::before {
+ .rules::before {
      content: "";
      width: 200px; // 367px;
      height: 200px; // 301px;
@@ -60,6 +69,10 @@
      top: 0px; /* Position über dem Element */
      left: 5%;
 }
+
+ .rules > .subheading {
+     font-weight: bold;
+ }
 
  @media (max-width: 800px) { /* Passt den Umbruchpunkt nach Bedarf an */
      .item {

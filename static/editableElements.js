@@ -20,14 +20,14 @@ function makeEditable(element) {
 
     element.onblur = function() {
         element.setAttribute('contenteditable', 'false');
+
+        sendDataToServer(element.dataset.event, element.dataset.task, element.innerText.trim());
+        console.log(element.dataset.event, element.dataset.task, element.innerText.trim())
+
         // Überprüft, ob das Element leer ist, und stellt den Platzhalter wieder her
         if (!element.innerText.trim()) {
             element.classList.add('placeholder');
             element.innerText = element.getAttribute('data-placeholder');
-        } else {
-            // Nach dem Beenden der Bearbeitung die Daten an den Server senden
-            sendDataToServer(element.dataset.event, element.dataset.task, element.innerText.trim());
-            console.log(element.dataset.event, element.dataset.task, element.innerText.trim())
         }
     };
 }

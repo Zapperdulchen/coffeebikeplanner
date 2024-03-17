@@ -1,13 +1,14 @@
 from datetime import datetime, date
-from database import session_db, engine, init_db, insert_plan, Location, Task, Event, Plan # , Person
+from itertools import repeat, chain
+from database import session_db, engine, init_db, create_event, insert_plan, Location, Task, Placeholder, Event, Plan # , Person
 
 def create_sample_db(session):
 
     # Adding locations
     locations_list = [
-        Location(name="Friedhof", address="Address 1"),
-        Location(name="Spielplatz", address="Address 2"),
-        Location(name="Hauptstraße", address="Address 3"),
+        Location(name="Friedhof", address="Brucker Str. 16"),
+        Location(name="Spielplatz", address="Hansengarten 21"),
+        Location(name="Hauptstraße", address="Hauptstraße 27"),
     ]
     session.add_all(locations_list)
     session.commit()
@@ -24,33 +25,51 @@ def create_sample_db(session):
     # session.commit()
 
     # Adding tasks
-    tasks_list = [
-        Task(task="Plaudertasse"),
-        Task(task="Schwatzbohne"),
-        Task(task="Lauschbecher"),
-        Task(task="Knusperzauberer"),
-    ]
+    tasks = ["Caféradler(in) 1", "Caféradler(in) 2", "Caféradler(in) 3", "Kekslieferant(in)"]
+    tasks_list = [Task(task=t) for t in tasks]
     session.add_all(tasks_list)
     session.commit()
 
-    # Adding events
-    events_list = [
-        Event(location_id=locations_list[0].id, start_datetime=datetime.strptime("14.04.24 14:00", '%d.%m.%y %H:%M'), end_datetime=datetime.strptime("14.04.24 16:00", '%d.%m.%y %H:%M')),
-        Event(location_id=locations_list[1].id, start_datetime=datetime.strptime("17.04.24 10:00", '%d.%m.%y %H:%M'), end_datetime=datetime.strptime("17.04.24 12:00", '%d.%m.%y %H:%M')),
-        Event(location_id=locations_list[2].id, start_datetime=datetime.strptime("19.04.24 14:00", '%d.%m.%y %H:%M'), end_datetime=datetime.strptime("19.04.24 16:00", '%d.%m.%y %H:%M')),
-    ]
-    session.add_all(events_list)
+    # Adding placeholder texts for tasks
+    task4_placeholder = ["Knusperzauberer(in)", "Zuckergusskünstler(in)", "Teigflüsterer(in)"]
+
+    task123_placeholder = ["Plaudertasse", "Schwatzbohne", "Lauschposten",
+    "Kekskurier(in)", "Heißgetränkhelfer(in)", "Tortenhörer(in)",
+    "Kaffeebotschafter(in)", "Tassentalkmaster(in)"]
+
+    tasks_ids = [session.query(Task).filter(Task.task == t).first() for t in tasks]
+
+    placeholders2tasks_ids = chain(*
+                                   [list(zip(ps, repeat(t)))
+                                    for ps, t in
+                                    zip([task123_placeholder]*3 + [task4_placeholder],
+                                        tasks_ids)])
+
+    placeholders_list = [Placeholder(placeholder=p, task_id=t.id)
+                         for p, t in placeholders2tasks_ids]
+    session.add_all(placeholders_list)
     session.commit()
+
+    # Adding events
+    events = [['Hauptstraße', '6.4.24 10:00'],
+              ['Friedhof', '14.4.24 14:00'],
+              ['Spielplatz', '19.4.24 15:00']]
+
+    for location, start in events:
+        create_event(session, location, start)
 
     # Assigning some person to the necessary tasks for the first event
     # Assuming one person per task for simplicity
+
+    earliest_event = session.query(Event).order_by(Event.start_datetime).first().id
     plans_list = [
-        (events_list[0].id, 'Max Mustermann', tasks_list[0].id),
-        (events_list[0].id, 'Julia Schneider', tasks_list[1].id),
-        (events_list[0].id, 'Sophia Becker', tasks_list[2].id),
+        (earliest_event, 'Max Mustermann', tasks_list[0].id),
+        (earliest_event, 'Julia Schneider', tasks_list[1].id),
+        (earliest_event, 'Sophia Becker', tasks_list[2].id),
     ]
     for p in plans_list:
         insert_plan(session, *p)
+
 
 if __name__ == '__main__':
     init_db(engine) # deletes db and recreates it

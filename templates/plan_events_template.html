@@ -8,6 +8,16 @@
 </head>
 <body>
 
+    <div class="rules">
+        <p class="subheading">Wie kann ich mich für einen Einsatz eintragen?</p>
+        <p>Hier unten in der Tabelle bitte eintragen für unsere nächsten Einsätze. Dort wo ein weißer Platzhaltertext steht, kannst Du Dich eintragen. Einfach draufklicken oder tippen und den eigenen Vor- und Nachnamen eingeben. Wenn Du die Eingabetaste drückst oder woanders draufklickst oder tippst, dann wird Deine Eingabe in der Datenbank gespeichert.</p>
+        <p class="subheading">Wie kann ich mich abmelden?</p>
+        <p>Solltest Du mehr als drei Tage vorher verhindert sein, dann kannst Du Dich selbst auch austragen. Solltest Du kurzfristiger verhindert sein, dann gib bitte den anderen Caféradler(innen) aus Deinem Einsatz direkt Bescheid. Sollte das nicht gehen, schreib eine Mail an <a href="mailto:schwatzbohnen@web.de">schwatzbohnen@web.de</a> .</p>
+        <p>Wenn das Wetter nicht taugt, dann entscheiden die eingetragenen Caféradler(innen), ob der Einsatz stattfindet oder nicht.</p>
+        <p class="subheading">Wann treffen wir uns im Mitarbeiterkreis das nächste Mal?</p>
+        <p>Unser nächstes Caférad-Team-Treffen ist am <b>Mo, 22.04.24 um 19 Uhr</b> im evangelischen Gemeindezentrum.</p>
+</div>
+
 <div class="container heading">
     <div class="item">Ort und Zeit</div>
     {% for task in tasks %}
@@ -21,11 +31,12 @@
                       {{ event.end_datetime | date('%H:%M') }}, {{ event.location.name }}</div>
     {% for task in tasks %}
         {% for plan in event.plans if plan.task_id == task.id %}
-            <div class="item task{{ task.id }}" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ task.task }}">
-                {{ task.task }} - {{ plan.person }}
+            <div class="item task{{ task.id }}" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ task.id | random_placeholder }}">
+                {{ plan.person }}
             </div>
         {% else %}
-            <div class="item task{{ task.id }} placeholder" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ task.task }}">{{ task.task }}</div>
+            {% set placeholder = task.id | random_placeholder %}
+            <div class="item task{{ task.id }} placeholder" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ placeholder }}">{{ placeholder }}</div>
         {% endfor %}
     {% endfor %}
 </div>
