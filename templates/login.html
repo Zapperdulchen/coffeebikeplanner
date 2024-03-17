@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5dc; /* Cremeton für den Hintergrund */
+        }
+        form {
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+        input[type=password], input[type=submit], input[type=button], input[type=text] {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #a4887a; /* Akzentfarbe für die Ränder */
+            border-radius: 4px;
+            box-sizing: border-box; /* Adds padding inside the box */
+        }
+        input[type=submit], input[type=button] {
+            background-color: #a4887a; /* Akzentfarbe für den Hintergrund der Schaltfläche */
+            color: white;
+            cursor: pointer;
+        }
+        input[type=submit]:hover, input[type=button]:hover {
+            background-color: #644e41; /* Dunklere Akzentfarbe für den Hover-Effekt */
+        }
+        /* overwritting rules from styles.css for logo placement */
+        .rules {
+            padding-top: 360px;
+        }
+        .rules::before {
+            width: 400px;
+            height: 340px;
+            top: 20px;
+        }
+        #togglePassword {
+            cursor: pointer;
+            width: 35px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <form class="rules" method="post">
+        <label for="password">Passwort:</label>
+        <input type="password" name="password" id="password" required>
+        <img src="{{ url_for('static', filename='eye.svg') }}" id="togglePassword" onclick="togglePasswordVisibility()">
+        <input type="submit" value="Einloggen">
+    </form>
+    <script>
+     function togglePasswordVisibility() {
+         var passwordInput = document.getElementById("password");
+         var toggleIcon = document.getElementById("togglePassword");
+         if (passwordInput.type === "password") {
+             passwordInput.type = "text";
+             toggleIcon.src = "{{ url_for('static', filename='eye-forbidden.svg') }}";
+         } else {
+             passwordInput.type = "password";
+             toggleIcon.src = "{{ url_for('static', filename='eye.svg') }}";
+         }
+     }
+    </script>

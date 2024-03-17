@@ -2,3 +2,4 @@ __pycache__/
 .python-version
 local*.*
 plan.db
+flask_session/

@@ -1,8 +1,8 @@
 * {
     font-family: sans-serif;
-    background-color: #ffffff;
-    /* background-color: #ebebeb;
-    background-color: #f5f5dc; */
+    /* background-color: #ffffff; */ 
+    /* background-color: #ebebeb; */
+    background-color: #f5f5dc; 
 }
 
 .container {
@@ -62,7 +62,7 @@
      content: "";
      width: 200px; // 367px;
      height: 200px; // 301px;
-     background-image: url('Caférad Logo.jpg');
+     background-image: url('Caférad Logo.png');
      background-size: contain;
      background-repeat: no-repeat;
      position: absolute;
