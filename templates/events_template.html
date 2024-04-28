@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gründlacher Caférad - Nächste Termine</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="claim">Der mobile <span>Treffpunkt</span> für Großgründlach</div>
+
+    <div class="container heading">
+        <div class="item">Unsere nächsten Ausflüge</div>
+    </div>
+
+    {% for event in events %}
+    <div class="container">
+        <div class="item">{{ event.start_datetime | date('%a, %d.%m.%Y %H:%M') }} -
+                        {{ event.end_datetime | date('%H:%M') }},<br/> {{ event.location.external_name }}</div>
+    </div>
+    {% endfor %}
+
+    <div class="info">
+        <p>Wenn das Wetter nicht taugt, dann fällt ein Termin auch mal aus. Wir versuchen dann unser Bestes, das auf jeden Fall hier, aber auch an den anderen Stellen bekanntzugeben.</p>
+        <p class="subheading">Du hast Lust uns bei der Umsetzung zu unterstützen?</p>
+        <p>Wir suchen Dich, wenn Du Freude am Kontakt mit anderen und neuen Begegnungen hast oder einfach gerne Kekse oder Kuchen bäckst. Gerne auch, wenn Du handwerklich geschickt bist, um das Rad instand halten zu können. Melde Dich gerne per Mail an <a href="mailto:caferad@grossgruendla.ch">caferad@grossgruendla.ch</a></p>
+        {% include 'next_meeting.html' %}
+    </div>
+    
+    {% include 'legal.html' %}
+    
+</body>
+</html>

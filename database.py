@@ -12,7 +12,7 @@ class Location(Base):
     __tablename__ = 'locations'
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    address = Column(String)
+    external_name = Column(String)
 
 class Event(Base):
     __tablename__ = 'events'

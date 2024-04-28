@@ -6,9 +6,9 @@ def create_sample_db(session):
 
     # Adding locations
     locations_list = [
-        Location(name="Friedhof", address="Brucker Str. 16"),
-        Location(name="Spielplatz", address="Hansengarten 21"),
-        Location(name="Hauptstraße", address="Hauptstraße 27"),
+        Location(name="Friedhof", external_name="vor dem neuen Friedhof"),
+        Location(name="Spielplatz", external_name="auf dem Spielplatz am Hansengarten"),
+        Location(name="Hauptstraße", external_name="gegenüber dem Gründlacher Bauernladen"),
     ]
     session.add_all(locations_list)
     session.commit()
@@ -51,9 +51,12 @@ def create_sample_db(session):
     session.commit()
 
     # Adding events
-    events = [['Hauptstraße', '6.4.24 10:00'],
-              ['Friedhof', '14.4.24 14:00'],
-              ['Spielplatz', '19.4.24 15:00']]
+    events = [['Spielplatz', '03.05.24 15:00'],
+              ['Friedhof', '05.05.24 14:00'],
+              ['Hauptstraße', '11.05.24 10:00'],
+              ['Spielplatz', '17.05.24 15:00'],
+              ['Friedhof', '26.05.24 14:00'],
+              ['Hauptstraße', '01.06.24 10:00']]
 
     for location, start in events:
         create_event(session, location, start)
@@ -64,8 +67,8 @@ def create_sample_db(session):
     earliest_event = session.query(Event).order_by(Event.start_datetime).first().id
     plans_list = [
         (earliest_event, 'Max Mustermann', tasks_list[0].id),
-        (earliest_event, 'Julia Schneider', tasks_list[1].id),
-        (earliest_event, 'Sophia Becker', tasks_list[2].id),
+        # (earliest_event, 'Julia Schneider', tasks_list[1].id),
+        # (earliest_event, 'Sophia Becker', tasks_list[2].id),
     ]
     for p in plans_list:
         insert_plan(session, *p)

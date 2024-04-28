@@ -1,15 +1,18 @@
 * {
     font-family: sans-serif;
-    /* background-color: #ffffff; */ 
-    /* background-color: #ebebeb; */
-    background-color: #f5f5dc; 
+    /* background-color: #70cfcc; */
+    /* Farbe vom Flyer, Kontrast für Text nicht optimal */    
+}
+
+body {
+    background-color: #f5f5dc;
 }
 
 .container {
      display: flex;
      flex-wrap: wrap;
  }
- .item {
+ .item, .legal {
      flex: 1 1 150px; /* Setzt eine Basisbreite und erlaubt Flexibilität */
      min-width: 150px; /* Mindestbreite für jedes Element */
      max-width: 550px; /* Maximale Breite für jedes Element */
@@ -51,14 +54,14 @@
      color: #ffffff; /* Farbe des Platzhaltertextes */
  }
 
- .rules {
+ .rules, .claim {
      position: relative;
      padding-top: 180px; /* Schafft Platz für das Logo oben */
      max-width: 600px;
      left: 0.5%;
  }
 
- .rules::before {
+ .rules::before, .claim::before {
      content: "";
      width: 200px; // 367px;
      height: 200px; // 301px;
@@ -68,17 +71,49 @@
      position: absolute;
      top: 0px; /* Position über dem Element */
      left: 5%;
-}
+ }
 
- .rules > .subheading {
+ .rules > .subheading, .info > .subheading {
      font-weight: bold;
  }
 
+ .info {
+     left: 0.5%;
+     position: relative;
+     max-width: 600px;
+ }
+
+ .claim {
+     font-size: x-large;
+     margin-bottom: 1%;
+ }
+
+ .claim > span {
+     color: #70d0cd;
+     font-weight: bold;
+ }
+
+ .legal {
+     color: white;
+     background-color: #70cfcc;
+     font-size: small;
+ }
+
+ a {
+     text-decoration: none;
+ }
+
+ .legal a {
+     font-weight: bolder;
+     color: white;
+ }
+
  @media (max-width: 800px) { /* Passt den Umbruchpunkt nach Bedarf an */
-     .item {
+     .item .legal {
          flex: 1 1 100%;
          min-width: 100%; /* Jedes Element nimmt die volle Breite ein, wenn untereinander */
          max-width: 100%;
          margin: 2px;
      }
  }
+

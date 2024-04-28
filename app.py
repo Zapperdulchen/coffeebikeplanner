@@ -60,7 +60,7 @@ def login():
     if request.method == 'POST':
         if request.form['password'] == app_password:
             flask_session['logged_in'] = True
-            return redirect(url_for('index'))
+            return redirect(url_for('planner'))
         else:
             return 'Falsches Passwort!'
     return render_template('login.html')
@@ -71,15 +71,21 @@ def logout():
     flask_session.pop('logged_in', None)  # Löschen der Session-Information
     return redirect(url_for('login'))
 
-@app.route('/')
+@app.route('/planner')
 @login_required
-def index():
+def planner():
     global session
 
     events = session.query(Event).all()
     tasks = session.query(Task).all()
     return render_template('plan_events_template.html', events=events, tasks=tasks)
 
+@app.route('/')
+def index():
+    global session
+
+    events = session.query(Event).all()
+    return render_template('events_template.html', events=events)
 
 @app.route('/update', methods=['POST'])
 @login_required
