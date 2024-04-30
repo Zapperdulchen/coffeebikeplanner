@@ -1,3 +1,5 @@
+# run using python -m housekeeping.init_database.py
+
 from datetime import datetime, date
 from itertools import repeat, chain
 from database import session_db, engine, init_db, create_event, insert_plan, Location, Task, Placeholder, Event, Plan # , Person
