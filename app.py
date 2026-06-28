@@ -1,6 +1,8 @@
 import locale
 import random
 import json
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from functools import wraps
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask import session as flask_session
@@ -77,15 +79,30 @@ def planner():
     global session
 
     events = session.query(Event).order_by(Event.start_datetime.asc()).all()
+    today = datetime.now(ZoneInfo('Europe/Berlin')).date()
+    upcoming_events = [event for event in events if event.start_datetime.date() >= today]
+    past_events = [event for event in events if event.start_datetime.date() < today]
     tasks = session.query(Task).all()
-    return render_template('plan_events_template.html', events=events, tasks=tasks)
+    return render_template(
+        'plan_events_template.html',
+        upcoming_events=upcoming_events,
+        past_events=past_events,
+        tasks=tasks,
+    )
 
 @app.route('/')
 def index():
     global session
 
     events = session.query(Event).order_by(Event.start_datetime.asc()).all()
-    return render_template('events_template.html', events=events)
+    today = datetime.now(ZoneInfo('Europe/Berlin')).date()
+    upcoming_events = [event for event in events if event.start_datetime.date() >= today]
+    past_events = [event for event in events if event.start_datetime.date() < today]
+    return render_template(
+        'events_template.html',
+        upcoming_events=upcoming_events,
+        past_events=past_events,
+    )
 
 @app.route('/update', methods=['POST'])
 @login_required

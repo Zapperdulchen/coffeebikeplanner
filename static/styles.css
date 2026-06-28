@@ -117,3 +117,27 @@ body {
      }
  }
 
+ .past-events {
+     margin: 5px;
+ }
+
+ .past-events summary {
+     background-color: #d8cfc2;
+     color: #644e41;
+     border-radius: 5px;
+     box-sizing: border-box;
+     cursor: pointer;
+     padding: 10px;
+     text-align: center;
+ }
+
+
+ .past-events .past-event {
+     background-color: #d8cfc2;
+     color: #644e41;
+ }
+
+.past-events-planner {
+    width: 100%;
+    max-width: none;
+}

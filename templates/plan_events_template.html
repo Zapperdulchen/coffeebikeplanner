@@ -24,7 +24,29 @@
     {% endfor %}
 </div>
 
-{% for event in events %}
+{% if past_events %}
+<details class="past-events past-events-planner">
+    <summary>Vergangene Termine anzeigen ({{ past_events | length }})</summary>
+    {% for event in past_events %}
+    <div class="container">
+        <div class="item past-event">{{ event.start_datetime | date('%a, %d.%m.%Y %H:%M') }} -
+                          {{ event.end_datetime | date('%H:%M') }}, {{ event.location.name }}</div>
+        {% for task in tasks %}
+            {% for plan in event.plans if plan.task_id == task.id %}
+                <div class="item task{{ task.id }} past-event" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ task.id | random_placeholder }}">
+                    {{ plan.person }}
+                </div>
+            {% else %}
+                {% set placeholder = task.id | random_placeholder %}
+                <div class="item task{{ task.id }} placeholder past-event" onclick="makeEditable(this)" data-event="{{ event.id }}" data-task="{{ task.id }}" data-placeholder="{{ placeholder }}">{{ placeholder }}</div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+</details>
+{% endif %}
+
+{% for event in upcoming_events %}
 <div class="container">
     <div class="item">{{ event.start_datetime | date('%a, %d.%m.%Y %H:%M') }} -
                       {{ event.end_datetime | date('%H:%M') }}, {{ event.location.name }}</div>

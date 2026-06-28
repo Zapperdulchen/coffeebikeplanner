@@ -13,7 +13,19 @@
         <div class="item">Unsere nächsten Ausflüge</div>
     </div>
 
-    {% for event in events %}
+    {% if past_events %}
+    <details class="past-events">
+        <summary>Vergangene Termine anzeigen ({{ past_events | length }})</summary>
+        {% for event in past_events %}
+        <div class="container">
+            <div class="item past-event">{{ event.start_datetime | date('%a, %d.%m.%Y %H:%M') }} -
+                            {{ event.end_datetime | date('%H:%M') }},<br/> {{ event.location.external_name }}</div>
+        </div>
+        {% endfor %}
+    </details>
+    {% endif %}
+
+    {% for event in upcoming_events %}
     <div class="container">
         <div class="item">{{ event.start_datetime | date('%a, %d.%m.%Y %H:%M') }} -
                         {{ event.end_datetime | date('%H:%M') }},<br/> {{ event.location.external_name }}</div>
