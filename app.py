@@ -76,7 +76,7 @@ def logout():
 def planner():
     global session
 
-    events = session.query(Event).all()
+    events = session.query(Event).order_by(Event.start_datetime.asc()).all()
     tasks = session.query(Task).all()
     return render_template('plan_events_template.html', events=events, tasks=tasks)
 
@@ -84,7 +84,7 @@ def planner():
 def index():
     global session
 
-    events = session.query(Event).all()
+    events = session.query(Event).order_by(Event.start_datetime.asc()).all()
     return render_template('events_template.html', events=events)
 
 @app.route('/update', methods=['POST'])
