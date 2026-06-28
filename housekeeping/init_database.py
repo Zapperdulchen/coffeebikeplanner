@@ -1,4 +1,4 @@
-# run using python -m housekeeping.init_database.py
+# run using python -m housekeeping.init_database
 
 from datetime import datetime, date
 from itertools import repeat, chain
@@ -8,9 +8,11 @@ def create_sample_db(session):
 
     # Adding locations
     locations_list = [
-        Location(name="Friedhof", external_name="vor dem neuen Friedhof"),
+        Location(name="Friedhof", external_name="im neuen Friedhof"),
         Location(name="Spielplatz", external_name="auf dem Spielplatz am Hansengarten"),
-        Location(name="Hauptstraße", external_name="gegenüber dem Gründlacher Bauernladen"),
+        Location(name="Gemeindezentrum", external_name="vor dem evangelischen Gemeindezentrum"),
+        Location(name="Ev. Kirche", external_name="vor der evangelischen Kirche"),
+        Location(name="Kirchweihumzug", external_name="am Kirchweihumzug mitlaufen"),
     ]
     session.add_all(locations_list)
     session.commit()
@@ -53,12 +55,26 @@ def create_sample_db(session):
     session.commit()
 
     # Adding events
-    events = [['Spielplatz', '03.05.24 15:00'],
-              ['Friedhof', '05.05.24 14:00'],
-              ['Hauptstraße', '11.05.24 10:00'],
-              ['Spielplatz', '17.05.24 15:00'],
-              ['Friedhof', '26.05.24 14:00'],
-              ['Hauptstraße', '01.06.24 10:00']]
+    events = [
+        ['Gemeindezentrum', '07.03.26 10:00'],
+        ['Friedhof',        '06.04.26 14:00'],
+        ['Friedhof',        '26.04.26 14:00'],
+        ['Ev. Kirche',      '17.05.26 11:00'],
+        ['Spielplatz',      '21.05.26 15:00'],
+        ['Friedhof',        '24.05.26 14:00'],
+        ['Friedhof',        '14.06.26 14:00'],
+        ['Spielplatz',      '18.06.26 15:00'],
+        ['Friedhof',        '28.06.26 14:00'],
+        ['Gemeindezentrum', '12.07.26 15:00'],  # Gemeindefest
+        ['Spielplatz',      '16.07.26 15:00'],
+        ['Friedhof',        '26.07.26 14:00'],
+        ['Kirchweihumzug',  '09.08.26 13:00'],  # Kirchweih
+        ['Friedhof',        '23.08.26 14:00'],
+        ['Friedhof',        '13.09.26 14:00'],
+        ['Spielplatz',      '17.09.26 15:00'],
+        ['Friedhof',        '27.09.26 14:00'],
+        ['Friedhof',        '11.10.26 14:00'],
+    ]
 
     for location, start in events:
         create_event(session, location, start)
