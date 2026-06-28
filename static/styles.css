@@ -118,7 +118,10 @@ body {
  }
 
  .past-events {
+     /* Öffentliche Ansicht: gleiche Gesamtbreite wie eine Termin-Kachel
+        (550 px Inhalt + je 5 px Außenabstand). */
      margin: 5px;
+     max-width: 560px;
  }
 
  .past-events summary {
