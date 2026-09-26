@@ -18,8 +18,8 @@
         <summary>Vergangene Termine anzeigen ({{ past_events | length }})</summary>
         {% for event in past_events %}
         <div class="container">
-            <div class="item past-event">{{ event.start_datetime | date('%a, %d.%m.%Y %H:%M') }} -
-                            {{ event.end_datetime | date('%H:%M') }},<br/> {{ event.location.external_name }}</div>
+            <div class="item past-event">{% if event.time_text %}{{ event.start_datetime | date('%a, %d.%m.%Y') }}, {{ event.time_text }}{% else %}{{ event.start_datetime | date('%a, %d.%m.%Y %H:%M') }} -
+                            {{ event.end_datetime | date('%H:%M') }}{% endif %},<br/> {{ event.location.external_name }}</div>
         </div>
         {% endfor %}
     </details>
@@ -27,8 +27,8 @@
 
     {% for event in upcoming_events %}
     <div class="container">
-        <div class="item">{{ event.start_datetime | date('%a, %d.%m.%Y %H:%M') }} -
-                        {{ event.end_datetime | date('%H:%M') }},<br/> {{ event.location.external_name }}</div>
+        <div class="item">{% if event.time_text %}{{ event.start_datetime | date('%a, %d.%m.%Y') }}, {{ event.time_text }}{% else %}{{ event.start_datetime | date('%a, %d.%m.%Y %H:%M') }} -
+                        {{ event.end_datetime | date('%H:%M') }}{% endif %},<br/> {{ event.location.external_name }}</div>
     </div>
     {% endfor %}
 

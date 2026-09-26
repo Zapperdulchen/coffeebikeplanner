@@ -20,6 +20,9 @@ class Event(Base):
     location_id = Column(Integer, ForeignKey('locations.id'))
     start_datetime = Column(DateTime)
     end_datetime = Column(DateTime)
+    # Optional free text instead of clock times, e.g. 'nach dem Gottesdienst'.
+    # start_datetime is still used for ordering (approximate time).
+    time_text = Column(String, nullable=True)
     location = relationship("Location", back_populates="events")
 
 Location.events = relationship("Event", order_by=Event.id, back_populates="location")
@@ -80,7 +83,7 @@ def session_db(engine):
     return Session()
 
 
-def create_event(session, location_name, start_datetime_str, end_datetime_str=None):
+def create_event(session, location_name, start_datetime_str, end_datetime_str=None, time_text=None):
     """
     Creates a new event based on the location name and start datetime.
     If end datetime is not provided, adds 2 hours to the start datetime.
@@ -90,6 +93,8 @@ def create_event(session, location_name, start_datetime_str, end_datetime_str=No
     - location_name: The name of the location where the event will take place.
     - start_datetime_str: The start datetime of the event in 'YYYY-MM-DD HH:MM' format.
     - end_datetime_str: Optional; The end datetime of the event in 'YYYY-MM-DD HH:MM' format.
+    - time_text: Optional; free text shown instead of the clock times, e.g.
+      'nach dem Gottesdienst'. start_datetime is then only used for ordering.
 
     Returns:
     The ID of the new event or None in case of error.
@@ -108,7 +113,8 @@ def create_event(session, location_name, start_datetime_str, end_datetime_str=No
         return None
 
     # Create a new Event object
-    new_event = Event(location_id=location.id, start_datetime=start_datetime, end_datetime=end_datetime)
+    new_event = Event(location_id=location.id, start_datetime=start_datetime, end_datetime=end_datetime,
+                      time_text=time_text)
 
     # Add the new event to the session and commit
     session.add(new_event)
